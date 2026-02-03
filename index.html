@@ -1,77 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Important Question</title>
+  <meta charset="UTF-8" />
+  <title>Just One Question</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
       height: 100vh;
       margin: 0;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #fbcfe8, #fde68a);
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.85);
+      padding: 40px 30px 50px;
+      border-radius: 24px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      text-align: center;
+      width: 340px;
+      max-width: 90%;
+      position: relative;
     }
 
     h1 {
+      font-size: 28px;
       margin-bottom: 30px;
+      color: #7c2d12;
     }
 
     .buttons {
       position: relative;
-      width: 300px;
-      height: 200px;
+      width: 100%;
+      height: 180px;
     }
 
     button {
-      padding: 12px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 6px;
-      border: none;
-    }
-
-    #yes {
-      background-color: #4CAF50;
-      color: white;
       position: absolute;
-      left: 20px;
-      top: 80px;
+      padding: 14px 28px;
+      font-size: 16px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease;
     }
 
     #no {
-      background-color: #f44336;
+      background: #fda4af;
+      color: #7f1d1d;
+      left: 50%;
+      top: 110px;
+      transform: translateX(-50%);
+    }
+
+    #yes {
+      background: #fb7185;
       color: white;
-      position: absolute;
-      left: 160px;
-      top: 80px;
+      left: 50%;
+      top: 30px;
+      transform: translateX(-50%);
+    }
+
+    #sad {
+      display: none;
+      font-size: 64px;
+      margin-top: 20px;
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
     }
   </style>
 </head>
 <body>
 
-  <h1>Do you hate me?</h1>
+  <div class="card">
+    <h1>Do you love me?</h1>
 
-  <div class="buttons">
-    <button id="yes" onclick="alert('Correct choice 😌')">Yes</button>
-    <button id="no">No</button>
+    <div class="buttons">
+      <button id="yes">Yes</button>
+      <button id="no">No</button>
+    </div>
+
+    <div id="sad">😔</div>
   </div>
 
   <script>
-    const noButton = document.getElementById("no");
+    const yesBtn = document.getElementById("yes");
+    const noBtn = document.getElementById("no");
+    const sad = document.getElementById("sad");
     const container = document.querySelector(".buttons");
 
-    noButton.addEventListener("mouseenter", () => {
-      const maxX = container.clientWidth - noButton.offsetWidth;
-      const maxY = container.clientHeight - noButton.offsetHeight;
+    function moveYes() {
+      const maxX = container.clientWidth - yesBtn.offsetWidth;
+      const maxY = container.clientHeight - yesBtn.offsetHeight;
 
-      const randomX = Math.random() * maxX;
-      const randomY = Math.random() * maxY;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
 
-      noButton.style.left = randomX + "px";
-      noButton.style.top = randomY + "px";
+      yesBtn.style.left = x + "px";
+      yesBtn.style.top = y + "px";
+      yesBtn.style.transform = "none";
+    }
+
+    // Desktop hover
+    yesBtn.addEventListener("mouseenter", moveYes);
+
+    // Mobile touch
+    yesBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      moveYes();
+    });
+
+    // NO click → sad emoji
+    noBtn.addEventListener("click", () => {
+      sad.style.display = "block";
     });
   </script>
 
